@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>샘플 예측 결과 - 서울 집값 예측 시스템</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .price-display {
+            font-size: 2em;
+            font-weight: 700;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .price-category {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+        
+        .category-low {
+            background: rgba(46, 204, 113, 0.8);
+            color: white;
+        }
+        
+        .category-medium {
+            background: rgba(241, 196, 15, 0.8);
+            color: white;
+        }
+        
+        .category-high {
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+        }
+        
+        .property-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .property-info h6 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .property-info p {
+            margin-bottom: 5px;
+            color: #6c757d;
+        }
+        
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            margin: 15px 0;
+        }
+        
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .loading {
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .spinner-border {
+            color: #667eea;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .refresh-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-button">
+        <a href="/" class="btn btn-outline-light">
+            <i class="fas fa-arrow-left"></i> 메인으로
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="main-container">
+            <div class="header">
+                <h1><i class="fas fa-chart-bar"></i> 샘플 예측 결과</h1>
+                <p>다양한 조건의 부동산 샘플 데이터 분석 결과</p>
+            </div>
+            
+            <div class="text-center mb-4">
+                <button class="btn refresh-button" onclick="loadSamplePredictions()">
+                    <i class="fas fa-sync-alt"></i> 새로고침
+                </button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">샘플 데이터를 분석하고 있습니다...</p>
+            </div>
+            
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            
+            <div id="sampleResults"></div>
+            
+            <div id="statsSection" class="stats-section" style="display: none;">
+                <h3><i class="fas fa-chart-line"></i> 예측 결과 통계</h3>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-value" id="avgPrice">-</div>
+                            <div class="stat-label">평균 가격</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-value" id="minPrice">-</div>
+                            <div class="stat-label">최소 가격</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-value" id="maxPrice">-</div>
+                            <div class="stat-label">최대 가격</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-value" id="stdPrice">-</div>
+                            <div class="stat-label">표준편차</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 페이지 로드 시 자동으로 데이터 로드
+        window.onload = function() {
+            loadSamplePredictions();
+        };
+        
+        function loadSamplePredictions() {
+            const loading = document.getElementById('loading');
+            const sampleResults = document.getElementById('sampleResults');
+            const errorMessage = document.getElementById('errorMessage');
+            const statsSection = document.getElementById('statsSection');
+            
+            loading.style.display = 'block';
+            sampleResults.innerHTML = '';
+            errorMessage.style.display = 'none';
+            statsSection.style.display = 'none';
+            
+            fetch('/get_sample_predictions')
+            .then(response => response.json())
+            .then(data => {
+                loading.style.display = 'none';
+                
+                if (data.success) {
+                    let resultsHtml = '<div class="row">';
+                    let prices = [];
+                    
+                    data.results.forEach(result => {
+                        prices.push(result.predicted_price);
+                        
+                        let categoryClass = '';
+                        if (result.price_category === '저가') {
+                            categoryClass = 'category-low';
+                        } else if (result.price_category === '중가') {
+                            categoryClass = 'category-medium';
+                        } else {
+                            categoryClass = 'category-high';
+                        }
+                        
+                        resultsHtml += `
+                            <div class="col-lg-6 col-xl-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">샘플 ${result.sample_id}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="property-info">
+                                            <h6><i class="fas fa-building"></i> 부동산 정보</h6>
+                                            <p><strong>건물 유형:</strong> ${result.property_type}</p>
+                                            <p><strong>층수:</strong> ${result.floor}층</p>
+                                            <p><strong>면적:</strong> ${result.area}㎡</p>
+                                            <p><strong>건축년도:</strong> ${result.build_year}년</p>
+                                        </div>
+                                        
+                                        <div class="text-center">
+                                            <div class="price-display">
+                                                ${result.formatted_price}
+                                            </div>
+                                            <span class="price-category ${categoryClass}">
+                                                ${result.price_category}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    resultsHtml += '</div>';
+                    sampleResults.innerHTML = resultsHtml;
+                    
+                    // 통계 계산 및 표시
+                    if (prices.length > 0) {
+                        const avgPrice = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);
+                        const minPrice = Math.min(...prices);
+                        const maxPrice = Math.max(...prices);
+                        const stdPrice = Math.round(calculateStandardDeviation(prices));
+                        
+                        document.getElementById('avgPrice').textContent = `${avgPrice.toLocaleString()}만원`;
+                        document.getElementById('minPrice').textContent = `${minPrice.toLocaleString()}만원`;
+                        document.getElementById('maxPrice').textContent = `${maxPrice.toLocaleString()}만원`;
+                        document.getElementById('stdPrice').textContent = `${stdPrice.toLocaleString()}만원`;
+                        
+                        statsSection.style.display = 'block';
+                    }
+                } else {
+                    errorMessage.textContent = data.error || '예측 중 오류가 발생했습니다.';
+                    errorMessage.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                loading.style.display = 'none';
+                errorMessage.textContent = '서버 연결 오류가 발생했습니다.';
+                errorMessage.style.display = 'block';
+            });
+        }
+        
+        function calculateStandardDeviation(values) {
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
+            const squareDiffs = values.map(value => {
+                const diff = value - mean;
+                return diff * diff;
+            });
+            const avgSquareDiff = squareDiffs.reduce((a, b) => a + b, 0) / values.length;
+            return Math.sqrt(avgSquareDiff);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,11 @@
+ch03 : AI 챗봇 만들기
+
+프롬프트1 : 간단한 룰 기반 챗봇 파이썬 코드 생성해줘
+
+프롬프트2 : web으로 실행하기 위해 flask 기능의 파일을 만들어줘. 
+파일은 app.py을 flask 실행을 위해 파일로 만들고 templates 폴더 안에 
+index.html을 만들고 static 폴더 안에 필요한 css, js 파일을 만들어줘.
+
+프롬프트3: Tailwind CSS를 적용해서 예쁘게 만들어줘.
+
+
