@@ -1,0 +1,16 @@
+ch06 : AI 텍스트로 이미지를 생성
+
+프롬프트1 : Python과 diffusers 라이브러리를 사용하여 텍스트로 이미지를 생성하는 AI 프로그램을 만들어줘. runwayml/stable-diffusion-v1-5와 같은 모델을 사용해서, 사용자가 텍스트 프롬프트를 입력하면 이미지를 생성해줘. 추가 옵션은 추론 단계 수, 프롬프트 준수 강도, 생성할 이미지 너비, 생성할 이미지 높이, 랜덤 시드 지정하게 해줘. 처음 실행시 텍스트와 추가 옵션은 자동으로 설정해서 이미지를 만들어줘.
+
+프롬프트1-1 : ch06 폴더 안에 ch06 폴더 제거해줘.
+
+프롬프트2 : web으로 실행하기 위해 flask 기능의 파일을 만들어줘. 파일은 app.py을 flask 실행을 위해 파일로 만들고 templates 폴더 안에 index.html을 만들고 static 폴더 안에 필요한 css, js 파일을 만들어줘.
+
+프롬프트3: Tailwind CSS를 적용해서 예쁘게 만들어줘.
+
+----------------------------------------------------------------
+
+이미지 프롬프트(main.py) : A serene watercolor landscape of misty mountains at sunrise, ultra-detailed, 4k.
+이미지 프롬프트1 : A cute cat sitting on a windowsill, photorealistic.
+이미지 프롬프트2 : A futuristic city skyline at night, neon lights.
+이미지 프롬프트3 : A beautiful woman is gazing at the sunrise over a serene beach.
