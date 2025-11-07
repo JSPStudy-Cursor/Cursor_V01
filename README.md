@@ -2,6 +2,7 @@
 출판사 : 앤써북<br>
 저자 : 이상용, 정동진<br>
 Email : cursor0701@gmail.com
+판매처 : https://www.yes24.com/product/goods/160409598
 
 ![aaa](https://github.com/user-attachments/assets/4a9baa69-0092-444f-bab3-37f993f7f2c0)
 
