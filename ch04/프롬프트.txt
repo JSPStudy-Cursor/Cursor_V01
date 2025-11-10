@@ -1,0 +1,7 @@
+ch04 : AI 이미지 분석기
+
+프롬프트1 : 파이썬으로 사용자가 업로드한 이미지를 Hugging Face API의 vit-base-patch16-224 모델을 사용해 분석하고, '이 사진에 뭐가 있는지 설명해줘'라는 질문에 답할 수 있는 기능을 콘솔에서 확인 할수 있게 만들어줘.
+
+프롬프트2 : web으로 실행하기 위해 flask 기능의 파일을 만들어줘. 파일은 app.py을 flask 실행을 위해 파일로 만들고 templates 폴더 안에 index.html을 만들고 static 폴더 안에 필요한 css, js 파일을 만들어줘.
+
+프롬프트3: Tailwind CSS를 적용해서 예쁘게 만들어줘.
