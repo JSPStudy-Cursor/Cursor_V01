@@ -14,7 +14,8 @@ runwayml/stable-diffusion-v1-5와 같은 모델을 사용해서, 사용자가 �
 ----------------------------------------------------------------
 
 이미지 프롬프트(main.py) : A serene watercolor landscape of misty mountains at sunrise, ultra-detailed, 4k.
+
 이미지 프롬프트1 : A cute cat sitting on a windowsill, photorealistic.
 이미지 프롬프트2 : A futuristic city skyline at night, neon lights.
-
 이미지 프롬프트3 : A beautiful woman is gazing at the sunrise over a serene beach.
+
